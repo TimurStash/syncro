@@ -3,6 +3,8 @@ Todo =
 		type: String
 		required: true
 	description: String
+	done:
+		type: Boolean
 
 User =
 	userid:

@@ -1,3 +1,5 @@
+window.timelog = ->
+
 window.BaseModel = Backbone.Model.extend
 		idAttribute: '_id'
 
