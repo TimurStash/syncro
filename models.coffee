@@ -132,9 +132,22 @@ for key,schema of window.dbschema.schema
 
 			# Base types - have a corresponding JS function
 			if typeof obj is 'function'
-				pschema[field] = if obj is Number then 'INT' else if obj is Object then 'JSON' else 'TEXT'
-			else if obj.type and typeof obj.type is 'function'
-				pschema[field] = if obj.type is Number then 'INT' else 'TEXT'
+
+				pschema[field] = switch obj
+					when Number then 'INT'
+					when Object then 'JSON'
+					when Boolean then 'BOOL'
+					else 'TEXT'
+
+			else if typeof obj is 'function' or obj.type and typeof obj.type is 'function'
+				# FIXME: this is duplicated above
+				pschema[field] = switch obj.type
+					when Number then 'INT'
+					when Object then 'JSON'
+					when Boolean then 'BOOL'
+					else 'TEXT'
+
+				#console.log key, field, obj, pschema[field]
 
 				# If a derived type with a refresh value, then add an '_updated' timestamp column
 				if obj.derived and obj.refresh
