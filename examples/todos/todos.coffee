@@ -79,6 +79,7 @@ class AppView extends Backbone.View
 		"keypress .new-todo": "createOnEnter"
 		"click #clear-completed": "clearCompleted"
 		"click #toggle-all": "toggleAllComplete"
+		"click .clear-db": "clearLocalDB"
 
 	setPending: =>
 
@@ -134,6 +135,11 @@ class AppView extends Backbone.View
 		done = @allCheckbox.checked
 		Todos.each (todo) ->
 			todo.save done: done
+
+	clearLocalDB: =>
+		resetApp true
+
+List = null
 
 $ ->
 
