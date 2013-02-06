@@ -28,8 +28,9 @@ app.configure ->
 	app.use express.errorHandler
 		dumpExceptions: true
 		showStack: true
+	app.use express.static __dirname
 
-syncro = require __dirname + '/../../syncro'
+syncro = require __dirname + '/../../src/syncro'
 
 # FIXME: this is a hack
 logger.warn = logger.warning

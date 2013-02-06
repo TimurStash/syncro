@@ -31,15 +31,6 @@ html
 		title Todos
 		!= css('/todos')
 		script(src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js", type="text/javascript")
-		!= js('/vendor/underscore-min')
-		!= js('/vendor/backbone-min')
-		!= js('/vendor/socket.io.min')
-		!= js('/vendor/jquery.cookie')
-		!= js('/vendor/async')
-		!= js('/vendor/moment.min')
-		!= js('/vendor/persistence')
-		!= js('/vendor/persistence.store.sql')
-		!= js('/vendor/persistence.store.websql')
 		script#app-tpl(type='text/template')
 			mixin app
 		script#todo-tpl(type='text/template')
@@ -59,10 +50,6 @@ html
 				b <%= remaining %>
 				| <%= remaining == 1 ? 'item' : 'items' %> left
 		!= js('/schema')
-		!= js('/Base')
-		!= js('/ObjectId')
-		!= js('/BaseList')
-		!= js('/models')
-		!= js('/sync')
+		!= js('/client-min')
 		!= js('/todos')
 	body

@@ -154,8 +154,6 @@ class AppView extends Backbone.View
 	clearLocalDB: =>
 		resetApp true
 
-List = null
-
 $ ->
 
 	$.cookie 'token', 'secretcode'
@@ -163,9 +161,6 @@ $ ->
 
 	window.App = new AppView
 	$('body').append App.render().el
-
-	#TodoList.prototype.fetch (lists) ->
-	#	console.log 'Lists:', lists
 
 	Todo.prototype.fetch (todos) ->
 		Todos.add todos

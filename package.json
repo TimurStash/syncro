@@ -1,0 +1,22 @@
+{
+	"name": "syncro",
+	"description": "Simple, schema-driven, synchronizing, offline-enabled, websocket-powered JavaScript framework",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "2.5.x",
+		"coffee-script": "",
+		"async": "",
+		"backbone": "",
+		"moment": "",
+		"mongoose": "",
+		"socket.io": "",
+		"apn": "",
+		"node-ini": ""
+	},
+	"devDependencies": {
+		"sinon-chai": "",
+		"optimist": "",
+		"socket.io-client": "",
+		"pow-mongo-fixtures": "*"
+	}
+}
