@@ -345,10 +345,11 @@ class ApiRequest
 	checkPerms: (user, modelname, data, cb) =>
 		mapval = @gmap[modelname]
 
-		return @cmdErr 'Empty object:' + modelname unless data
+		return @cmdErr 'Empty object: ' + modelname unless data
 
 		if mapval
 			mname = if mapval is true then modelname else mapval
+			# FIXME: allow use of other key names beside the model name
 			key = mname.toLowerCase()
 			id = if mapval is true then data._id else data[key]
 
@@ -610,7 +611,7 @@ class ApiRequest
 
 	# Recursively get the users that have rights to the objects of a specified type with specified IDs
 	getUsers: (modelname, ids, cb) =>
-		#console.log ids
+		#console.log modelname, ids
 
 		query = @db.Right.find {}
 		query.select 'user'

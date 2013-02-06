@@ -121,7 +121,7 @@ performSync = ->
 		models.push key unless embedded[key]
 
 	async.reduce models, {}, getSyncData, (err, data) ->
-		#console.log 'Sync:', data
+		console.log 'Sync:', data
 		syncProgress 0.1
 		socket.emit 'sync', data, () ->
 			syncProgress 0.2

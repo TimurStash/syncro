@@ -1,4 +1,6 @@
 ###
+FIXME: re-enable this so we can use the toggle function only
+
 Todo = Backbone.Model.extend(
 	defaults: ->
 		title: "empty todo..."
@@ -12,7 +14,7 @@ Todo = Backbone.Model.extend(
 		@save done: not @get("done")
 )
 ###
-class TodoList extends Backbone.Collection
+class TodoListColl extends Backbone.Collection
 	model: Todo
 	done: ->
 		@filter (todo) ->
@@ -28,7 +30,7 @@ class TodoList extends Backbone.Collection
 	comparator: (todo) ->
 		todo.get "order"
 
-Todos = new TodoList
+Todos = new TodoListColl
 
 class TodoView extends Backbone.View
 	tagName: "li"
@@ -46,12 +48,14 @@ class TodoView extends Backbone.View
 
 	render: =>
 		@$el.html @template(@model.toJSON())
-		@$el.toggleClass "done", @model.get("done") != ""
+		@$el.toggleClass "done", @model.get("done")
+		@$('.toggle').attr 'checked', @model.get("done")
 		@input = @$(".edit")
 		this
 
 	toggleDone: =>
-		@model.toggle()
+		@model.save
+			done: not @model.get("done")
 
 	edit: =>
 		@$el.addClass "editing"
@@ -81,20 +85,27 @@ class AppView extends Backbone.View
 		"click #toggle-all": "toggleAllComplete"
 		"click .clear-db": "clearLocalDB"
 
+	# FIXME: move these to a base class
 	setPending: =>
+	setNotifyCnt: ->
+
 
 	render: =>
 		@$el.html @template()
 		this
 
+
 	setup: =>
 		@listenTo Todos, "add", @addOne
 		@listenTo Todos, "reset", @addAll
-		@listenTo Todos, "all", @render
-
+		@listenTo Todos, "all", @redraw
 		@footer = @$("footer")
 		@main = $("#main")
 
+		@allCheckbox = @$(".toggle-all").get()
+		@redraw()
+
+	redraw: =>
 		done = Todos.done().length
 		remaining = Todos.remaining().length
 		if Todos.length
@@ -108,7 +119,6 @@ class AppView extends Backbone.View
 			@main.hide()
 			@footer.hide()
 
-		@allCheckbox = @$(".toggle-all").get()
 		@allCheckbox.checked = not remaining
 
 	addOne: (todo) =>
@@ -123,8 +133,13 @@ class AppView extends Backbone.View
 		return	unless e.keyCode is 13
 		return	unless @input.val()
 		todo = new Todo
-		todo.save name: @input.val()
-		@addOne todo
+
+		# FIXME: get the TodoList ID from local DB
+		todo.save 
+			todolist: "51119418e7999617edbb93a2"
+			name: @input.val()
+
+		Todos.add todo
 		@input.val ""
 
 	clearCompleted: =>
@@ -148,6 +163,9 @@ $ ->
 
 	window.App = new AppView
 	$('body').append App.render().el
+
+	#TodoList.prototype.fetch (lists) ->
+	#	console.log 'Lists:', lists
 
 	Todo.prototype.fetch (todos) ->
 		Todos.add todos
