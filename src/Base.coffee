@@ -22,7 +22,7 @@ window.BaseModel = Backbone.Model.extend
 					cb obj
 			else
 
-				window.socket.emit 'get:' + mname, id, (data) ->
+				sync.socket.emit 'get:' + mname, id, (data) ->
 					obj = new window[mname] JSON.parse(data)
 					cb obj
 
@@ -274,7 +274,7 @@ window.BaseModel = Backbone.Model.extend
 		setEdited: ->
 			if @get('edited') != 'new'
 				@set 'edited', 'modified'
-			pending.incr @getBtype(), @id
+			sync.pending.incr @getBtype(), @id
 
 		getJSON: () ->
 			data = @toJSON()
@@ -283,7 +283,7 @@ window.BaseModel = Backbone.Model.extend
 			data
 
 		saveUp: (cb) ->
-			if window.socket?.socket.connected
+			if sync.socket?.socket.connected
 
 				cmd = if @get('edited') is 'new' then 'add' else 'edit'
 
@@ -292,7 +292,7 @@ window.BaseModel = Backbone.Model.extend
 
 				self = this
 
-				window.socket.emit cmd + ':' + @getBtype(), sdata, (resp) ->
+				sync.socket.emit cmd + ':' + @getBtype(), sdata, (resp) =>
 					data = JSON.parse(resp)
 
 					if data.error
@@ -300,7 +300,7 @@ window.BaseModel = Backbone.Model.extend
 					else if resp is false
 						console.log 'Error saving'
 					else
-						pending.decr self.getBtype(), self.id
+						sync.pending.decr self.getBtype(), self.id
 
 						# Update any attributes sent back from the server
 						self.update data
@@ -379,7 +379,7 @@ window.BaseModel = Backbone.Model.extend
 					cb list
 
 			else
-				window.socket.emit 'list:' + typename, (data) ->
+				sync.socket.emit 'list:' + typename, (data) ->
 					JSON.parse(data)
 
 		# Share an object with another user

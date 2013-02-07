@@ -9,6 +9,5 @@
 #= require '../vendor/ObjectId'
 #= require '../src/Base'
 #= require '../src/BaseList'
-#= require '../src/models'
 #= require '../src/sync'
 #= require '../vendor/socket.io'

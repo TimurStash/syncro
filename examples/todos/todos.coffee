@@ -14,6 +14,10 @@ Todo = Backbone.Model.extend(
 		@save done: not @get("done")
 )
 ###
+
+window.sync = new InSync()
+sync.init()
+
 class TodoListColl extends Backbone.Collection
 	model: Todo
 	done: ->
@@ -152,12 +156,11 @@ class AppView extends Backbone.View
 			todo.save done: done
 
 	clearLocalDB: =>
-		resetApp true
+		sync.resetApp true
 
 $ ->
 
 	$.cookie 'token', 'secretcode'
-	startIO()
 
 	window.App = new AppView
 	$('body').append App.render().el
