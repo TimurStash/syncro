@@ -27,7 +27,7 @@ setLogger = (mylog) ->
 
 # TODO: add ability to map field names on client/server to new names
 
-db = require './storage/mongodb.coffee'
+db = require './storage/mongodb'
 
 # TODO: Specify the User model name in the DB schema somehow, instead of hard-coding it
 checkUser = (user, pass, cb) ->

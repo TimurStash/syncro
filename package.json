@@ -2,6 +2,7 @@
 	"name": "syncro",
 	"description": "Simple, schema-driven, synchronizing, offline-enabled, websocket-powered JavaScript framework",
 	"version": "0.0.1",
+	"main": "./lib/server",
 	"dependencies": {
 		"express": "2.5.x",
 		"coffee-script": "",
@@ -14,6 +15,7 @@
 		"node-ini": ""
 	},
 	"devDependencies": {
+		"snockets": "",
 		"sinon-chai": "",
 		"optimist": "",
 		"socket.io-client": "",

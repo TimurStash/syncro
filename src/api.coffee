@@ -11,7 +11,7 @@ class ApiRequest
 
 	@setData: (@dbschema, @models, @logger) ->
 		# Patch
-		@db = require './storage/mongodb.coffee'
+		@db = require './storage/mongodb'
 		for mname in ['Right', 'Notification', 'ApnToken']
 			@db[mname] = @models[mname].model
 

@@ -30,7 +30,7 @@ app.configure ->
 		showStack: true
 	app.use express.static __dirname
 
-syncro = require __dirname + '/../../src/syncro'
+syncro = require __dirname + '/../../lib/syncro'
 
 # FIXME: this is a hack
 logger.warn = logger.warning
