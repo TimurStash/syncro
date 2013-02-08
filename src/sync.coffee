@@ -353,6 +353,10 @@ class window.InSync
 			persistence.executeQueriesSeq(tx, queries)
 
 	modelSetup: =>
+		# Save pointer for 'initialize' function
+		
+		embedded = @embedded
+
 		# Generate the properties that will be used for the Backbone models
 		for key,schema of dbschema.schema
 
@@ -409,7 +413,7 @@ class window.InSync
 
 					# Embedded objects
 					else if obj.embedded
-						embedded[obj.type] = 1
+						@embedded[obj.type] = 1
 						nt =
 							type: key
 							field: field
@@ -459,7 +463,7 @@ class window.InSync
 						@set '_id', newid
 						@set 'creator', window.CurrentUser.id
 						@set 'created', new Date()
-						@set 'edited', 'new' unless @embedded[keyname]
+						@set 'edited', 'new' unless embedded[keyname]
 						@set 'history', []
 
 						for keyn,dflt of defaults
