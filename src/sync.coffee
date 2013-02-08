@@ -112,7 +112,7 @@ class window.InSync
 				data[keyname] = existing
 				cb null, data
 	
-				query = window[keyname].prototype.dbmodel
+				query = window[keyname].dbmodel
 	
 				# Get all of the new & edited objects
 				query.all().filter('edited', 'in', ['new', 'modified']).list (changed) =>
@@ -688,15 +688,20 @@ class window.InSync
 
 		# Create the Backbone models
 		for key,props of @mprops
-			window[key] = BaseModel.extend props
+			c = window[key] = BaseModel.extend props
+
+			# FIXME: this is hacky
+			c.key = props.key
+			c.dbmodel = props.dbmodel
+
 
 		#console.log hasMany
 		# Relationships for persistence.js
 		for type,list of @hasMany
 			for obj in list
 				refname = obj.type
-				m1 = window[refname].prototype
-				m2 = window[type].prototype
+				m1 = window[refname] #.prototype
+				m2 = window[type] #.prototype
 				#console.log refname, obj.field, type, obj.refname
 				m1.dbmodel.hasMany obj.field, m2.dbmodel, obj.refname || m1.key
 

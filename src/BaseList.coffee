@@ -1,10 +1,7 @@
-window.BaseList = Backbone.Collection.extend
-	parse: (resp) ->
-		resp = JSON.parse(resp)	if typeof resp is "string"
-		resp[@key]
+class window.BaseList extends Backbone.Collection
 
-	# FIXME: merge these two methods
-	fetchObjs: (opts, cb) ->
+	# FIXME: merge these two methods below
+	@fetchObjs: (opts, cb) ->
 		unless cb
 			cb = opts
 			opts = {}
@@ -30,12 +27,12 @@ window.BaseList = Backbone.Collection.extend
 				JSON.parse(data)
 
 	#initialize: ->
+
 	fetch: (opts, cb) ->
 		unless cb
 			cb = opts
 			opts = {}
 
-		self = this
 		@reset()
 		typename = @key.charAt(0).toUpperCase() + @key.slice(1)
 		#console.log typename
@@ -53,19 +50,23 @@ window.BaseList = Backbone.Collection.extend
 					model = new window[typename] data
 					#console.log typename, model, data
 					model.dbobj = data
-					self.add model
+					@add model
 
 					# Fetch embedded objects if requested
 					model.prefetch() if opts.prefetch
 
 				#console.log typename, self.models
 				timelog(typename + ' models')
-				cb? self.models
+				cb? @models
 
 		else
-			window.socket.emit 'list:' + typename, (data) ->
-				self.add JSON.parse(data)
-				cb? self.models
+			sync.socket.emit 'list:' + typename, (data) =>
+				@add JSON.parse(data)
+				cb? @models
+
+	parse: (resp) ->
+		resp = JSON.parse(resp)	if typeof resp is "string"
+		resp[@key]
 
 
 

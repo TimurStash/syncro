@@ -165,7 +165,7 @@ $ ->
 	window.App = new AppView
 	$('body').append App.render().el
 
-	Todo.prototype.fetch (todos) ->
+	Todo.fetch (todos) ->
 		Todos.add todos
 		App.setup()	
 		App.addAll()
