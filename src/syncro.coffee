@@ -69,11 +69,24 @@ applyMixins = (dbschema) ->
 				schema[fname] =
 					type: val.type
 
+# FIXME: move to API file
 listUsers = (cb) ->
 	models.User.model.find cb
 
+addUser = (props, cb) ->
+	logger.debug "Creating new user "
+
+	api = new ApiRequest
+	api.cmdErr = (err) ->
+		cb err
+	api.cb = cb
+
+	user = api.addObject 'User', props
+
+
 dbinit = (dbschema, logger) ->
 	models = db.genschema dbschema, logger
+	ApiRequest.setData dbschema, models, logger
 
 # FIXME: rewrite this to use classes or closures better so there is less argument passing
 #console.log '## Model: ' + mname
@@ -229,3 +242,4 @@ module.exports =
 	setLogger: setLogger
 	enableAPNs: ApiRequest.enableAPNs
 	listUsers: listUsers
+	addUser: addUser

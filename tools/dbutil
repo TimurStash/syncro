@@ -61,8 +61,25 @@ switch cmd
 	when 'users'
 		syncro.listUsers (err, users) ->
 			console.log ""
-			console.log "#{u._id}   #{u.userid}" for u in users 
+
+			if users.length
+				console.log "    #{u._id}   #{u.userid}" for u in users 
+			else
+				console.log "    No users"
+
 			console.log ""
+			process.exit()
+	when 'adduser'
+		props =
+			userid: argv._[1]
+			password: argv._[2]
+
+		syncro.addUser props, (err, user) ->
+			if err and err.code is 11000
+				console.log "Error: User already exists"
+			else
+				console.log user
+
 			process.exit()
 	else
 		usage "Unrecognized command '#{cmd}'"

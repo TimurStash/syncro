@@ -32,8 +32,8 @@ class ApiRequest
 	# Constructor
 
 	constructor: (@socket, @modelname) ->
-		@user = @socket.handshake.user
-		@uid = @user._id
+		@user = @socket?.handshake.user
+		@uid = @user?._id
 
 		s = ApiRequest.dbschema
 
@@ -410,6 +410,7 @@ class ApiRequest
 					obj[fname] = []
 
 			# Add the history data to the history as 'Edit' objects
+			data.history ?= []
 			for hdata in data.history
 				edit = new @db.Edit hdata
 				obj.history.push edit
