@@ -114,6 +114,22 @@ switch cmd
 		syncro.addObj type, props, (err) ->
 			process.exit()
 
+	# Usage: perm -u <userid> <type> <query>
+	when 'perm'
+		usage "You must specify a user with -u for the 'perm' command" unless argv.u
+
+		type = argv._[1]
+		usage "You must specify the model name"	 unless type
+
+		# FIXME: refactor this to a function.  duped above.
+		props = {}
+		for pair in argv._[2...]
+			[key, val] = pair.split '='
+			props[key] = val
+
+		syncro.addPerm argv.u, type, props, (err) ->
+			process.exit()
+
 	else
 		usage "Unrecognized command '#{cmd}'"
 

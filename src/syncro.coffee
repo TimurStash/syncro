@@ -108,6 +108,30 @@ addObj = (type, props, cb) ->
 addUser = (props, cb) ->
 	addObj 'User', props, cb
 
+addPerm = (userid, type, props, cb) ->
+	unless models[type]
+		return cb "Model type '#{type}' does not exist in schema"
+
+	# Fetch the user
+	models.User.model.findOne { userid: userid }, (err, user) ->
+		return cb "Could not get user: #{userid}" if err? or not user
+
+		# Get the object to grant permissions on
+		models[type].model.findOne props, (err, obj) ->
+			return cb "Could not find '#{type}' object" if err?
+	
+			#console.log user, obj
+
+			# Create the Right object & save it
+			perm = new models.Right.model
+				user: user._id
+				objid: obj._id
+				access: "full"
+				type: type
+
+			perm.save (err) ->
+				return cb err
+
 
 # FIXME: rewrite this to use classes or closures better so there is less argument passing
 #console.log '## Model: ' + mname
@@ -266,3 +290,4 @@ module.exports =
 	listObjs: listObjs
 	addUser: addUser
 	addObj: addObj
+	addPerm: addPerm
