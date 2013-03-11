@@ -15,7 +15,8 @@ Todo =
 User =
 	userid:
 		type: String
-		index: true
+		index: 
+			unique: true
 		required: true
 	password:
 		type: String
