@@ -1,0 +1,69 @@
+#!/usr/bin/env coffee
+
+umsg = """
+Usage: $0 <command> [options]
+
+    Add and edit objects in the Syncro DB, with history
+
+Commands:
+
+  Users:
+
+    adduser        Add a User to the DB
+    users          Show a list of the users in the DB	
+
+
+"""
+
+optimist = require 'optimist'
+
+argv = optimist
+	.usage(umsg)
+	.demand('d')
+	.alias('d', 'dbname')
+	.describe('d', 'Name of MongoDB database')
+	.demand('s')
+	.alias('s', 'schema')
+	.describe('s', 'Path to schema file to use')
+	.alias('h', 'help')
+	.describe('h', 'Show this help message')
+	.argv
+
+usage() if argv.h
+
+usage = (msg) ->
+	console.log optimist.help()
+	console.log msg + '\n'
+	process.exit()
+
+usage 'You must specify a command' unless argv._.length
+
+syncro = require __dirname + '/../src/syncro'
+path = require 'path'
+sprintf = (require 'sprintf').sprintf
+
+Log = require('coloured-log')
+
+logger = new Log(Log.INFO)
+
+# Include the database schema
+dbschema = require path.resolve argv.s
+
+syncro.db.connect 'mongodb://localhost/' + argv.d
+
+# Generate the Mongoose schema, models, and socket.io API
+syncro.dbinit dbschema, logger
+
+cmd = argv._[0]
+			
+			
+switch cmd
+	when 'users'
+		syncro.listUsers (err, users) ->
+			console.log ""
+			console.log "#{u._id}   #{u.userid}" for u in users 
+			console.log ""
+			process.exit()
+	else
+		usage "Unrecognized command '#{cmd}'"
+

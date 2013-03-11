@@ -69,6 +69,12 @@ applyMixins = (dbschema) ->
 				schema[fname] =
 					type: val.type
 
+listUsers = (cb) ->
+	models.User.model.find cb
+
+dbinit = (dbschema, logger) ->
+	models = db.genschema dbschema, logger
+
 # FIXME: rewrite this to use classes or closures better so there is less argument passing
 #console.log '## Model: ' + mname
 genapi = (app, dbschema) ->
@@ -216,8 +222,10 @@ genapi = (app, dbschema) ->
 
 module.exports =
 	db: mongoose
+	dbinit: dbinit
 	genapi: genapi
 	checkUser: checkUser
 	getUserById: getUserById
 	setLogger: setLogger
 	enableAPNs: ApiRequest.enableAPNs
+	listUsers: listUsers
