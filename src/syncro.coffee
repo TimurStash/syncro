@@ -73,20 +73,32 @@ applyMixins = (dbschema) ->
 listUsers = (cb) ->
 	models.User.model.find cb
 
-addUser = (props, cb) ->
-	logger.debug "Creating new user "
+listObjs = (type, cb) ->
+	unless models[type]
+		return cb "Model type '#{type}' does not exist in schema"
+
+	models[type].model.find cb 
+
+dbinit = (dbschema, logger) ->
+	models = db.genschema dbschema, logger
+	ApiRequest.setData dbschema, models, logger
+
+addObj = (type, props, cb) ->
+	unless models[type]
+		return cb "Model type '#{type}' does not exist in schema"
+
+	logger.debug "Creating new #{type}"
 
 	api = new ApiRequest
 	api.cmdErr = (err) ->
 		cb err
 	api.cb = cb
 
-	user = api.addObject 'User', props
+	obj = api.addObject type, props
 
+addUser = (props, cb) ->
+	addObj 'User', props, cb
 
-dbinit = (dbschema, logger) ->
-	models = db.genschema dbschema, logger
-	ApiRequest.setData dbschema, models, logger
 
 # FIXME: rewrite this to use classes or closures better so there is less argument passing
 #console.log '## Model: ' + mname
@@ -242,4 +254,6 @@ module.exports =
 	setLogger: setLogger
 	enableAPNs: ApiRequest.enableAPNs
 	listUsers: listUsers
+	listObjs: listObjs
 	addUser: addUser
+	addObj: addObj

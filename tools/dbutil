@@ -81,6 +81,39 @@ switch cmd
 				console.log user
 
 			process.exit()
+	when 'ls'
+		type = argv._[1]
+		usage "You must specify the model name"	 unless type
+
+		syncro.listObjs type, (err, objs) ->
+			if err?
+				logger.error err
+				process.exit()
+
+			console.log ""
+
+			if objs.length
+				console.log obj for obj in objs
+			else
+				console.log "    No #{type} objects"
+
+			console.log ""
+			process.exit()
+
+	when 'add'
+		type = argv._[1]
+		usage "You must specify the model name"	 unless type
+
+		usage "Use the 'adduser' command for adding users" if type is 'User'
+
+		props = {}
+		for pair in argv._[2...]
+			[key, val] = pair.split '='
+			props[key] = val
+
+		syncro.addObj type, props, (err) ->
+			process.exit()
+
 	else
 		usage "Unrecognized command '#{cmd}'"
 
