@@ -94,6 +94,15 @@ addObj = (type, props, cb) ->
 		cb err
 	api.cb = cb
 
+	changes = {}
+	for key, val of props
+		changes[key] = val
+
+	# Create the history array and push the changes object on to it
+	props.history = []
+	props.history.push
+		changes: changes
+
 	obj = api.addObject type, props
 
 addUser = (props, cb) ->
