@@ -4,11 +4,11 @@ Syncro
 Description
 -----------
 
-Simple, schema-driven, synchronizing, offline-enabled, websocket-powered JavaScript framework.  
+Simple, schema-driven, synchronizing, offline-enabled, websocket-powered JavaScript framework with notifications & powerful access control.  
 
-It was created to make it easier to create dynamic, data-driven, multi-user web applications without having to explicitly write code to create the server API, permissions model.  
+This framework was created to make it easier to create dynamic, data-driven, multi-user web applications without having to explicitly write code to create the server API, permissions model.  
 
-Created for a task & project management application, and is a good fit for applications where you want to maintain a full history of all object changes, but don't want to have to write any extra code to get it.  
+The code was extracted from a task & project management application, and is a good fit for applications where you want to maintain a full history of all object changes, but don't want to have to write any extra code to get it.  
 
 It is currently only designed to work with Webkit browsers, which include Google Chrome, Safari for Mac OS X, iPhone, iPad, and Android browsers.  It is a good match for creating HTML5 web applications using PhoneGap/Cordova that need to work completely offline.
 
@@ -58,6 +58,13 @@ Features
 * Full-text indexing & search of object fields
 * Logging
 * [Socket.io authentication]()
+
+Dependencies
+------------
+
+* MongoDB
+* Linux or Mac OS X (due to use of symlinks)
+* Redis (example app uses Redis for session store, for now)
 
 Basic Usage
 -----------
@@ -357,6 +364,26 @@ server.coffee
 
 main.coffee
 
+Apple Push Notifications
+------------------------
+
+To use the [Apple Push Notification Service](http://developer.apple.com/library/mac/#documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/ApplePushService/ApplePushService.html) you will need to have an active iOS Developer account with Apple, and then provision
+
+The easiest way to use APNs is to build an HTML5 web application using Syncro, and wrap it up using [PhoneGap](http://phonegap.com/).  The easiest way is probably using the [Cordova PushNotification Plugin](https://github.com/phonegap/phonegap-plugins/tree/master/iOS/PushNotification).
+
+To enable push notifications on the server, you will need to add a `[apns]` section to your `config.ini` file, with the paths for your private key & APNS certificate:
+
+```ini
+[apns]
+
+cert = ../ssl/dev-apn.crt
+key = ../ssl/dev-apn.key
+gateway = gateway.sandbox.push.apple.com
+```
+
+TODO: add example server-side code
+TODO: add example client-side code
+
 
 Debugging
 ---------
@@ -395,11 +422,19 @@ For most applications, you should not need to access the server API directly.  F
 
 The bulk sync API is accessed via the `sync` event.
 
+Tests
+-----
+
+Tests are run by mocha:
+
+    make test
+
 Examples
 --------
 
-[Todo]() MVC application 
+Example applications can be found here: https://github.com/mkopala/syncro-examples
 
+* [Todos](https://github.com/mkopala/syncro-examples/todos)
 
 TODO
 ----
