@@ -449,4 +449,8 @@ TODO
 Disclaimer
 ----------
 
-I'm aware that there is a lot to improve & cleanup with this module.  This was extracted from my first project w/ node.js & coffeescript.  Some of the code is pretty bad.  My JavaScript skills aren't the best.  But it works, at least for me, and that has been the most important thing so far.
+I'm aware that there is a lot to improve & cleanup with this module.  
+
+It's basically a bunch of duct tape to hold Backbone, persistence.js, and Mongoose together.  The dependencies & code to glue them together are a quite ugly for now.
+
+This was extracted from my first project w/ node.js & coffeescript.  Some of the code is pretty bad.  My JavaScript skills aren't the best.  But it works, at least for me, and that has been the most important thing so far.
