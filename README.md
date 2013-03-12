@@ -434,7 +434,7 @@ Examples
 
 Example applications can be found here: https://github.com/mkopala/syncro-examples
 
-* [Todos](https://github.com/mkopala/syncro-examples/todos)
+* [Todos](https://github.com/mkopala/syncro-examples/tree/master/todos)
 
 TODO
 ----
@@ -460,7 +460,7 @@ License
 
 The MIT License
 
-Copyright (c) 2012-2013 Matt Kopala, http://github.com/mkopala
+Copyright (c) 2012-2013 Matt Kopala, https://github.com/mkopala
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
