@@ -1,17 +1,26 @@
 #!/usr/bin/env coffee
 
 umsg = """
-Usage: $0 <command> [options]
+Usage: $0 -s <schema> -d <dbname> <command> [options]
 
     Add and edit objects in the Syncro DB, with history
 
 Commands:
 
-  Users:
+    adduser                             Add a User to the DB
+    users                               Show a list of the users in the DB	
+	perm -u <userid> <type> <query>     Add 'full' permissions for <userid> to the first object found by <query>
+	ls <type>						    List objects of the specified type
+	add <type> <props> [options]		Add an object to the DB of the specified <type>
+	
+Properties/Queries:
 
-    adduser        Add a User to the DB
-    users          Show a list of the users in the DB	
+    You may specify key=value pairs for the <query> or <props> arguments.
 
+  Examples:
+
+  	add Person name="Joe Smith" gender=Male         (add a Person object, with name & gender set)
+  	perm -u myuser Person name="Alice Cooper"       (grant permissions to 'myuser' to access Person with name "Alice Cooper")
 
 """
 
@@ -43,6 +52,7 @@ usage 'You must specify a command' unless argv._.length
 syncro = require __dirname + '/../src/syncro'
 path = require 'path'
 sprintf = (require 'sprintf').sprintf
+sw = require 'shellwords'
 
 Log = require('coloured-log')
 
@@ -60,6 +70,7 @@ cmd = argv._[0]
 			
 			
 switch cmd
+	# List the User objects in the DB
 	when 'users'
 		syncro.listUsers (err, users) ->
 			console.log ""
@@ -71,7 +82,9 @@ switch cmd
 
 			console.log ""
 			process.exit()
+	# Add a new User to the DB, specifying the 'userid' and 'password'
 	when 'adduser'
+		usage "You must specify a userid and password with 'adduser'" if argv._.length < 3
 		props =
 			userid: argv._[1]
 			password: argv._[2]
@@ -83,6 +96,7 @@ switch cmd
 				console.log user
 
 			process.exit()
+	# List the objects in the DB
 	when 'ls'
 		type = argv._[1]
 		usage "You must specify the model name"	 unless type
@@ -102,6 +116,7 @@ switch cmd
 			console.log ""
 			process.exit()
 
+	# Add an object to the DB, and optionally grant permissions
 	when 'add'
 		type = argv._[1]
 		usage "You must specify the model name"	 unless type
@@ -116,7 +131,7 @@ switch cmd
 		syncro.addObj argv.u, type, props, (err) ->
 			process.exit()
 
-	# Usage: perm -u <userid> <type> <query>
+	# Usage: 
 	when 'perm'
 		usage "You must specify a user with -u for the 'perm' command" unless argv.u
 
