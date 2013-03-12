@@ -10,7 +10,7 @@
     "url": "http://github.com/mkopala/syncro.git"
   },
   "scripts": {
-    "predeploy": "make compile",
+    "predeploy": "make build",
     "test": "make test"
   },
   "dependencies": {
