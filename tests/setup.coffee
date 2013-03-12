@@ -9,7 +9,7 @@ host = '127.0.0.1'
 # Modules
 express = require 'express'
 io = require 'socket.io-client'
-syncro = require '../syncro'
+syncro = require '../src/syncro'
 httpProxy = require 'http-proxy'
 fixtures = require('pow-mongodb-fixtures').connect(dbname)
 id = require('pow-mongodb-fixtures').createObjectId

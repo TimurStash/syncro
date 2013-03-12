@@ -3,7 +3,7 @@
 #=====================================================================
 # Tests
 
-MOCHA = mocha --compilers coffee:coffee-script
+MOCHA = node_modules/.bin/mocha --compilers coffee:coffee-script
 OPTS = 
 CSOPTS = 
 
@@ -13,7 +13,7 @@ spec:
 dot:
 	$(MOCHA) tests/*.coffee
 
-api:
+test:
 	$(MOCHA) -R spec tests/add.coffee
 
 #=====================================================================
