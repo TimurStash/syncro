@@ -3,24 +3,40 @@
   "description": "Simple, schema-driven, synchronizing, offline-enabled, websocket-powered JavaScript framework",
   "version": "0.0.1",
   "author": "Matt Kopala <mkopala@gmail.com>",
-  "main": "./lib/server",
+  "keywords": "Mongoose persistence PhoneGap APN backbone socket.io WebSQL MongoDB CoffeeScript fulltext express jQuery cookie user authentication roles access merge sqlite client html5 appcache search fast model manifest",
+  "main": "./src/syncro",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/mkopala/syncro.git"
+  },
+  "scripts": {
+    "predeploy": "make compile",
+    "test": "make test"
+  },
   "dependencies": {
-    "express": "2.5.x",
-    "coffee-script": "",
     "async": "",
-    "backbone": "",
     "moment": "",
     "mongoose": "",
     "socket.io": "",
     "apn": "",
     "node-ini": "",
-    "sprintf": "~0.1.1"
+    "sprintf": "~0.1.1",
+    "cookie": "0.0.5"
   },
   "devDependencies": {
+    "backbone": "",
+    "express": "2.5.x",
+    "coffee-script": "",
     "snockets": "",
     "sinon-chai": "",
     "optimist": "",
     "socket.io-client": "",
-    "pow-mongo-fixtures": "*"
-  }
+    "mocha": "~1.8.2",
+    "pow-mongodb-fixtures": "~0.8.1"
+  },
+  "engines": {
+    "node": ">=0.6"
+  },
+  "readmeFilename": "README.md",
+  "license": "MIT"
 }
