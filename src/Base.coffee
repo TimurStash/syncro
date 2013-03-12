@@ -27,7 +27,7 @@ class window.BaseModel extends Backbone.Model
 				cb obj
 		else
 
-			sync.socket.emit 'get:' + mname, id, (data) ->
+			syncro.socket.emit 'get:' + mname, id, (data) ->
 				obj = new window[mname] JSON.parse(data)
 				cb obj
 
@@ -83,7 +83,7 @@ class window.BaseModel extends Backbone.Model
 				cb list
 
 		else
-			sync.socket.emit 'list:' + typename, (data) ->
+			syncro.socket.emit 'list:' + typename, (data) ->
 				JSON.parse(data)
 
 	prefetch: (cb) ->
@@ -303,7 +303,7 @@ class window.BaseModel extends Backbone.Model
 	setEdited: =>
 		if @get('edited') != 'new'
 			@set 'edited', 'modified'
-		sync.pending.incr @getBtype(), @id
+		syncro.pending.incr @getBtype(), @id
 
 	getJSON: =>
 		data = @toJSON()
@@ -312,14 +312,14 @@ class window.BaseModel extends Backbone.Model
 		data
 
 	saveUp: (cb) =>
-		if sync.socket?.socket.connected
+		if syncro.socket?.socket.connected
 
 			cmd = if @get('edited') is 'new' then 'add' else 'edit'
 
 			sdata = @cleanup2 @getJSON()
 			console.log 'Save (' + cmd + '): ', @key, sdata
 
-			sync.socket.emit cmd + ':' + @getBtype(), sdata, (resp) =>
+			syncro.socket.emit cmd + ':' + @getBtype(), sdata, (resp) =>
 				data = JSON.parse(resp)
 
 				if data.error
@@ -327,7 +327,7 @@ class window.BaseModel extends Backbone.Model
 				else if resp is false
 					console.log 'Error saving'
 				else
-					sync.pending.decr @getBtype(), @id
+					syncro.pending.decr @getBtype(), @id
 
 					# Update any attributes sent back from the server
 					@update data

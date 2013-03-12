@@ -39,10 +39,10 @@ class window.BaseList extends Backbone.Collection
 
 		# Fetch from server or from sqlite DB
 		if window.Offline
-			query = window[typename].prototype.dbQuery opts
-			query.list (results) ->
+			query = window[typename].dbQuery opts
+			query.list (results) =>
 				timelog('Fetch ' + typename)
-				results.forEach (obj) ->
+				results.forEach (obj) =>
 				# Set the ID attribute to match Mongo, and what Backbone expects
 					data = obj._data
 					data._id = obj.id

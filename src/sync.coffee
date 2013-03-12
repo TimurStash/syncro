@@ -35,7 +35,7 @@ class SyncProgress
 			App.setPending(@data)
 		, 300
 
-class window.InSync
+class window.Syncro
 
 	# Socket.IO stuff
 	online: false
@@ -326,7 +326,7 @@ class window.InSync
 					#console.log obj, id, p, fulltext[obj._type]
 
 					mqueries.push(['DELETE FROM TextIndex WHERE `entityId` = ? AND `prop` = ?', [id, p]])
-					occurrences = searchTokenizer(obj._data[p])
+					occurrences = @searchTokenizer(obj._data[p])
 					for word,cnt of occurrences
 						qx = ['INSERT INTO TextIndex VALUES (?, ?, ?, ?, ?)', [obj.id, obj._type, p, word, cnt]]
 						#console.log qx
@@ -418,7 +418,7 @@ class window.InSync
 							type: key
 							field: field
 
-						if @hasmany[obj.type] instanceof Array
+						if @hasMany[obj.type] instanceof Array
 							@hasMany[obj.type].push nt
 						else
 							@hasMany[obj.type] = [nt]
@@ -797,7 +797,7 @@ class window.InSync
 		words = text.toLowerCase().split(/[^\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/)
 		wordDict = {}
 		for word in words
-			word = normalizeWord word
+			word = @normalizeWord word
 			if word
 				if wordDict[word]
 					wordDict[word]++
@@ -837,7 +837,7 @@ class window.InSync
 				# Skip empty or undefined fields
 				continue unless res[fname]
 
-				wordcnt = searchTokenizer res[fname]
+				wordcnt = @searchTokenizer res[fname]
 				for word,cnt of wordcnt
 					q2 = ["INSERT INTO TextIndex VALUES (?, ?, ?, ?, ?)", [res.id, key, fname, word, cnt]]
 					#console.log q2
