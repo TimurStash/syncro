@@ -83,7 +83,7 @@ dbinit = (dbschema, logger) ->
 	models = db.genschema dbschema, logger
 	ApiRequest.setData dbschema, models, logger
 
-addObj = (type, props, cb) ->
+addObj = (userid, type, props, cb) ->
 	unless models[type]
 		return cb "Model type '#{type}' does not exist in schema"
 
@@ -92,7 +92,15 @@ addObj = (type, props, cb) ->
 	api = new ApiRequest
 	api.cmdErr = (err) ->
 		cb err
-	api.cb = cb
+
+	api.cb = (obj) ->
+		# Grant permissions if a user ID was specified
+		if userid
+			query =
+				_id: api.objid
+			addPerm userid, type, query, cb
+		else
+			cb()
 
 	changes = {}
 	for key, val of props
@@ -106,7 +114,7 @@ addObj = (type, props, cb) ->
 	obj = api.addObject type, props
 
 addUser = (props, cb) ->
-	addObj 'User', props, cb
+	addObj null, 'User', props, cb
 
 addPerm = (userid, type, props, cb) ->
 	unless models[type]

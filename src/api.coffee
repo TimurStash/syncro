@@ -439,6 +439,10 @@ class ApiRequest
 	saveReply: (action, data, modelname, obj) =>
 		obj.save (err) =>
 			return @cmdErr err if err?
+
+			# FIXME: This is a hack
+			@objid = obj._id
+
 			@sendToAll action, data, modelname, obj, =>
 				@cleanup modelname, @uid, obj
 				@cb JSON.stringify(obj)

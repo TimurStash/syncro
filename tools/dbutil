@@ -25,6 +25,8 @@ argv = optimist
 	.demand('s')
 	.alias('s', 'schema')
 	.describe('s', 'Path to schema file to use')
+	.alias('u', 'user')
+	.describe('u', 'User ID and rights')
 	.alias('h', 'help')
 	.describe('h', 'Show this help message')
 	.argv
@@ -111,7 +113,7 @@ switch cmd
 			[key, val] = pair.split '='
 			props[key] = val
 
-		syncro.addObj type, props, (err) ->
+		syncro.addObj argv.u, type, props, (err) ->
 			process.exit()
 
 	# Usage: perm -u <userid> <type> <query>
