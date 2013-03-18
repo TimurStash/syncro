@@ -81,15 +81,29 @@ seedDB = (cb) ->
 			token: 'alice_token'
 		]
 		notifications: [
-			created: Date.now
-			edited: Date.now
-			user: new ObjectID("50a8a033e66edd27b0000005")
-			objid: new ObjectID()
-			type: "sasdfasdf"
-			status: "new"
-			action: "added"
-			data: new Object()
-			_id: new ObjectID("51471cbf38d4487030000001")
+			{
+				created: Date.now
+				edited: Date.now
+				user: new ObjectID("50a8a033e66edd27b0000005")
+				objid: new ObjectID()
+				type: "sasdfasdf"
+				status: "new"
+				action: "added"
+				data: new Object()
+				_id: new ObjectID("51471cbf38d4487030000001")
+			},
+
+			{
+				created: Date.now
+				edited: Date.now
+				user: new ObjectID()
+				objid: new ObjectID()
+				type: "sasdfasdf"
+				status: "new"
+				action: "added"
+				data: new Object()
+				_id: new ObjectID("51471cbf38d4487030040302")
+			}
 		]
 	fixtures.clearAllAndLoad data, cb
 
