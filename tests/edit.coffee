@@ -47,7 +47,7 @@ describe 'edit:', ->
 			notification.status.should.be.equal "viewed"
 			done()
 
-	it "should not allow us to edit the notification with wrong 'user field'", (done)->
+	it "should not allow us to edit the notification with wrong 'user' field", (done)->
 		#Query for object with bad permissions
 		badQuery = {_id : new setup.ObjectID "51471cbf38d4487030040302"}
 
