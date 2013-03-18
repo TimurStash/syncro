@@ -38,11 +38,7 @@ describe 'add:', ->
 			uid = "50a8a033e66edd27b0000005"
 			#log.debug.should.have.been.calledWith "Push: #{uid} : Student : #{data._id}"
 
-			# TODO: need a 'fetchOne' method
-			setup.fetch 'students', (objs) ->
-
-				student = objs[0]
-
+			setup.fetchOne 'students', {_id : new setup.ObjectID "50a7fad0e66edd27b0000004"}, (err, student) ->
 				#student.should.eql data
 				student.name.should.equal data.name
 

@@ -12,7 +12,7 @@ dot:
 	$(MOCHA) tests/*.coffee
 
 test:
-	$(MOCHA) -R spec tests/add.coffee
+	$(MOCHA) -R spec tests/add.coffee tests/edit.coffee
 
 #=====================================================================
 # Build

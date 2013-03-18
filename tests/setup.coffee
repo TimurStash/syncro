@@ -38,9 +38,15 @@ dbschema =
 	map:
 		Student: true
 
-{Db, Connection, Server} = require 'mongodb'
+{Db, Connection, Server, ObjectID} = require 'mongodb'
 
 db = {}
+
+exports.ObjectID = ObjectID
+
+exports.fetchOne = (cname, query, cb) ->
+	db.collection cname, (err, coll) ->
+		coll.findOne query, cb
 
 exports.fetch = (cname, cb) ->
 	db.collection cname, (err, coll) ->
@@ -74,7 +80,17 @@ seedDB = (cb) ->
 			name: 'Alice'
 			token: 'alice_token'
 		]
-
+		notifications: [
+			created: Date.now
+			edited: Date.now
+			user: new ObjectID("50a8a033e66edd27b0000005")
+			objid: new ObjectID()
+			type: "sasdfasdf"
+			status: "new"
+			action: "added"
+			data: new Object()
+			_id: new ObjectID("51471cbf38d4487030000001")
+		]
 	fixtures.clearAllAndLoad data, cb
 
 # Start express, generate the API, and attach the socket
